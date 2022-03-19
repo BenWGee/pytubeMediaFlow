@@ -47,15 +47,24 @@ def fileFormat():
 #===============================================================================
 
 #===============================================================================
+def checkVideoExists(url,path,ext):
+    yt = pyt.YouTube(url)
+    vidName = path + str(yt.title) + ext
+    if os.exists(vidName):
+        return True
+    else:
+        return False
+#===============================================================================
+
+#===============================================================================
 def downloadVideo(url,path,audioOnlyMode = True, ext = "mp3"):
     yt = pyt.YouTube(url)
     t = yt.streams.filter(only_audio = audioOnlyMode)
-    print("Video is Downloading as " + str(yt.title) + ext)
     try:
         t[0].download(path)
-        print("Video " + str(yt.title) + ext + " succesfully download")
+        logger.info("Video " + str(yt.title) + ext + " succesfully download")
     except:
-        print("Video " + str(yt.title) + ext + " failed to download")
+        logger.info("Video " + str(yt.title) + ext + " failed to download")
 #===============================================================================
 
 #===============================================================================
@@ -76,16 +85,6 @@ def videosByPlaylist(url):
     return links
 #===============================================================================
 
-path = "media"
-audioOnlyMode = True
-if audioOnlyMode:
-    path += "/audio"
-else:
-    path += "/video"
-
-for link in urls:
-    print(link)
-    downloadVideo(link,path,audioOnlyMode)
 # MAIN
 if __name__ == "__main__":
 
@@ -133,6 +132,17 @@ if __name__ == "__main__":
         help="String(format): File format of saved content (mp3/4 recomended)."
     )
 
+    opts.add_argument(
+        "-a", "--audioOnly",
+        required=False,
+        default="y",
+        choices = ["y","n"]
+        type=str,
+        help="String(audioOnly): toggle for audio only version of video."
+    )
+
+
+
     # BUILD ARGS ARRAY
     args = opts.parse_args()
 
@@ -150,3 +160,21 @@ if __name__ == "__main__":
         urlList = videosByPlaylist()
     else:
         logger.info("Invalid get option selected.")
+
+    if valid == True:
+        path = "media"
+        audioOnlyMode = True
+        if args.audioOnlyMode == "y":
+            path += "/audio"
+        else:
+            path += "/video"
+
+        for link in urlList:
+            if !checkVideoExists(link,path,args.format):
+                downloadVideo(link,path,audioOnlyMode)
+        logger.info("Review downloaded files at " + path)
+
+    else:
+        logger.info("Unable to download files.")
+
+    logger.info(os.path.basename(__file__) + " finished")
