@@ -42,6 +42,11 @@ logger.addHandler(fh)
 logger.info(os.path.basename(__file__) + " stated")
 
 #===============================================================================
+def fileFormat():
+    return
+#===============================================================================
+
+#===============================================================================
 def downloadVideo(url,path,audioOnlyMode = True, ext = "mp3"):
     yt = pyt.YouTube(url)
     t = yt.streams.filter(only_audio = audioOnlyMode)
@@ -54,9 +59,9 @@ def downloadVideo(url,path,audioOnlyMode = True, ext = "mp3"):
 #===============================================================================
 
 #===============================================================================
-def videosByChannel(channelName, vidDate = datetime(1970,1,1)):
+def videosByChannel(url, vidDate = datetime(1970,1,1)):
     links = []
-    channel = pyt.Channel("https://www.youtube.com/c/" + channelName)
+    channel = pyt.Channel(url)
     for vid in channel.video_urls[:3]:
         yt = pyt.YouTube(vid)
         if yt.publish_date >= vidDate:
@@ -64,9 +69,12 @@ def videosByChannel(channelName, vidDate = datetime(1970,1,1)):
     return links
 #===============================================================================
 
-playlist = pyt.Playlist("")
-urls = [videoURL for videoURL in playlist.video_urls]
-
+#===============================================================================
+def videosByPlaylist(url):
+    playlist = pyt.Playlist(url)
+    links = [videoURL for videoURL in playlist.video_urls]
+    return links
+#===============================================================================
 
 path = "media"
 audioOnlyMode = True
@@ -98,14 +106,47 @@ if __name__ == "__main__":
         required=False,
         default=None,
         type=str,
-        help="String(get): Link to required video/channel/playlist ."
+        help="String(url): Link to required video/channel/playlist ."
+    )
+
+    opts.add_argument(
+        "-l", "--list",
+        required=False,
+        default=None,
+        type=str,
+        help="String(list): Path/name of text file list with delimited urls."
+    )
+
+    opts.add_argument(
+        "-d", "--delimiter",
+        required=False,
+        default="\n",
+        type=str,
+        help="String(delimiter): Character used to delimit video urls in file."
+    )
+
+    opts.add_argument(
+        "-f", "--format",
+        required=False,
+        default="mp3",
+        type=str,
+        help="String(format): File format of saved content (mp3/4 recomended)."
     )
 
     # BUILD ARGS ARRAY
     args = opts.parse_args()
 
-    if args.report == "SomeValue":
-		#doThis
+    if args.get == "file":
+        logger.info("Gathering videos from " + str(args.file))
+        urlList = readFile(args.file, args.delimiter):
+    elif args.get == "url":
+        logger.info("Gathering videos from" + str(args.get))
+        urlList = [args.url]
+    elif args.get == "channel":
+        logger.info("Gathering videos from" + str(args.get))
+        urlList = videosByChannel()
+    elif args.get == "playlist":
+        logger.info("Gathering videos from" + str(args.get))
+        urlList = videosByPlaylist()
     else:
-		#doThat
-        logger.info("INVALID REPORT TYPE REQUESTED")
+        logger.info("Invalid get option selected.")
