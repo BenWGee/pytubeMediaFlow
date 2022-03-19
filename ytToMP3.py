@@ -23,7 +23,7 @@ def videosByChannel(channelName, vidDate = datetime(1970,1,1)):
 # def videoByURLList():
 #     return
 
-playlist = pyt.Playlist("https://www.youtube.com/watch?v=Xkj-kcjN2p8&list=PLPBmbs-JPhHf34TfOiYEhX62zW0xXe7Ij")
+playlist = pyt.Playlist("")
 urls = [videoURL for videoURL in playlist.video_urls]
 
 
