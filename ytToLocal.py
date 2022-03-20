@@ -117,6 +117,14 @@ if __name__ == "__main__":
     )
 
     opts.add_argument(
+        "-r", "--releaseDate",
+        required=False,
+        default=None,
+        type=str,
+        help="String(releaseDate): Look for videos after this date.(YYYY/MM/DD)"
+    )
+
+    opts.add_argument(
         "-d", "--delimiter",
         required=False,
         default="\n",
@@ -154,10 +162,10 @@ if __name__ == "__main__":
         urlList = [args.url]
     elif args.get == "channel":
         logger.info("Gathering videos from" + str(args.get))
-        urlList = videosByChannel()
+        urlList = videosByChannel(args.url,args.releaseDate)
     elif args.get == "playlist":
         logger.info("Gathering videos from" + str(args.get))
-        urlList = videosByPlaylist()
+        urlList = videosByPlaylist(args.url)
     else:
         logger.info("Invalid get option selected.")
 
