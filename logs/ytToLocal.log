@@ -1,0 +1,8 @@
+[2022-03-20T14:38:11] pid=6281; level="INFO"; name="ytToLocal"; function="<module>"; line="42"; message="ytToLocal.py stated";
+[2022-03-20T14:39:41] pid=6349; level="INFO"; name="ytToLocal"; function="<module>"; line="42"; message="ytToLocal.py stated";
+[2022-03-20T14:40:03] pid=6360; level="INFO"; name="ytToLocal"; function="<module>"; line="42"; message="ytToLocal.py stated";
+[2022-03-20T14:40:03] pid=6360; level="INFO"; name="ytToLocal"; function="<module>"; line="164"; message="Gathering videos fromchannel";
+[2022-03-20T14:40:34] pid=6451; level="INFO"; name="ytToLocal"; function="<module>"; line="42"; message="ytToLocal.py stated";
+[2022-03-20T14:40:34] pid=6451; level="INFO"; name="ytToLocal"; function="<module>"; line="164"; message="Gathering videos fromchannel";
+[2022-03-20T14:43:36] pid=6582; level="INFO"; name="ytToLocal"; function="<module>"; line="42"; message="ytToLocal.py stated";
+[2022-03-20T14:43:36] pid=6582; level="INFO"; name="ytToLocal"; function="<module>"; line="164"; message="Gathering videos fromchannel";

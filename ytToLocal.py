@@ -1,12 +1,12 @@
 import pytube as pyt
 from datetime import date, datetime
-import sys, os, logging, datetime, time, argseparse
+import sys, os, logging, datetime, time, argparse
 from logging.handlers import RotatingFileHandler
 
 # Path to project
-path = os.getenv('')
+path = ""#os.getenv('')
 #Create name
-name = "" #Project Name
+name = "ytToLocal" #Project Name
 #Create version
 version = "0.0.0"
 #Set Log dir location
@@ -68,7 +68,7 @@ def downloadVideo(url,path,audioOnlyMode = True, ext = "mp3"):
 #===============================================================================
 
 #===============================================================================
-def videosByChannel(url, vidDate = datetime(1970,1,1)):
+def videosByChannel(url, vidDate = datetime.datetime(1970,1,1)):
     links = []
     channel = pyt.Channel(url)
     for vid in channel.video_urls[:3]:
@@ -96,7 +96,7 @@ if __name__ == "__main__":
         required=True,
         default=None,
         type=str,
-        choices=['url', 'channel', 'playlist', 'file']
+        choices=['url', 'channel', 'playlist', 'file'],
         help="String(get): Get list of videos by ."
     )
 
@@ -144,7 +144,7 @@ if __name__ == "__main__":
         "-a", "--audioOnly",
         required=False,
         default="y",
-        choices = ["y","n"]
+        choices = ["y","n"],
         type=str,
         help="String(audioOnly): toggle for audio only version of video."
     )
@@ -153,34 +153,36 @@ if __name__ == "__main__":
 
     # BUILD ARGS ARRAY
     args = opts.parse_args()
+    valid = True
 
     if args.get == "file":
         logger.info("Gathering videos from " + str(args.file))
-        urlList = readFile(args.file, args.delimiter):
+        urlList = readFile(args.file, args.delimiter)
     elif args.get == "url":
         logger.info("Gathering videos from" + str(args.get))
         urlList = [args.url]
     elif args.get == "channel":
         logger.info("Gathering videos from" + str(args.get))
-        urlList = videosByChannel(args.url,args.releaseDate)
+        urlList = videosByChannel(args.url, datetime.datetime.strptime(args.releaseDate, '%Y/%m/%d'))
     elif args.get == "playlist":
         logger.info("Gathering videos from" + str(args.get))
         urlList = videosByPlaylist(args.url)
     else:
+        valid = False
         logger.info("Invalid get option selected.")
 
-    if valid == True:
-        path = "media"
+    if valid:
+        saveLoc = "media"
         audioOnlyMode = True
         if args.audioOnlyMode == "y":
-            path += "/audio"
+            saveLoc += "/audio"
         else:
-            path += "/video"
+            saveLoc += "/video"
 
         for link in urlList:
-            if !checkVideoExists(link,path,args.format):
-                downloadVideo(link,path,audioOnlyMode)
-        logger.info("Review downloaded files at " + path)
+            if not checkVideoExists(link,saveLoc,args.format):
+                downloadVideo(link,saveLoc,audioOnlyMode)
+        logger.info("Review downloaded files at " + saveLoc)
 
     else:
         logger.info("Unable to download files.")
