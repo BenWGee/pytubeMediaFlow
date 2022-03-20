@@ -50,7 +50,7 @@ def fileFormat():
 def checkVideoExists(url,path,ext):
     yt = pyt.YouTube(url)
     vidName = path + str(yt.title) + ext
-    if os.exists(vidName):
+    if os.path.exists(vidName):
         return True
     else:
         return False
@@ -73,6 +73,7 @@ def videosByChannel(url, vidDate = datetime.datetime(1970,1,1)):
     channel = pyt.Channel(url)
     for vid in channel.video_urls[:3]:
         yt = pyt.YouTube(vid)
+        print(str(yt.title))
         if yt.publish_date >= vidDate:
             links.append(vid)
     return links
@@ -159,13 +160,13 @@ if __name__ == "__main__":
         logger.info("Gathering videos from " + str(args.file))
         urlList = readFile(args.file, args.delimiter)
     elif args.get == "url":
-        logger.info("Gathering videos from" + str(args.get))
+        logger.info("Gathering videos from " + str(args.get))
         urlList = [args.url]
     elif args.get == "channel":
-        logger.info("Gathering videos from" + str(args.get))
+        logger.info("Gathering videos from " + str(args.get))
         urlList = videosByChannel(args.url, datetime.datetime.strptime(args.releaseDate, '%Y/%m/%d'))
     elif args.get == "playlist":
-        logger.info("Gathering videos from" + str(args.get))
+        logger.info("Gathering videos from " + str(args.get))
         urlList = videosByPlaylist(args.url)
     else:
         valid = False
@@ -174,7 +175,7 @@ if __name__ == "__main__":
     if valid:
         saveLoc = "media"
         audioOnlyMode = True
-        if args.audioOnlyMode == "y":
+        if args.audioOnly == "y":
             saveLoc += "/audio"
         else:
             saveLoc += "/video"
