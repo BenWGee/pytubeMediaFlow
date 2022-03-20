@@ -29,3 +29,4 @@
 [2022-03-20T14:52:04] pid=6931; level="INFO"; name="ytToLocal"; function="downloadVideo"; line="65"; message="Video JPEGMAFIA - BMT! (AUDIO)mp3 succesfully download";
 [2022-03-20T14:52:04] pid=6931; level="INFO"; name="ytToLocal"; function="<module>"; line="186"; message="Review downloaded files at media/audio";
 [2022-03-20T14:52:04] pid=6931; level="INFO"; name="ytToLocal"; function="<module>"; line="191"; message="ytToLocal.py finished";
+[2022-03-20T15:08:37] pid=7575; level="INFO"; name="ytToLocal"; function="<module>"; line="42"; message="ytToLocal.py stated";
